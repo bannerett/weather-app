@@ -1,0 +1,78 @@
+import { IconType } from 'react-icons';
+import { BsCloudDrizzle, BsCloudHailFill, BsCloudHaze2Fill, BsCloudSleet, BsTropicalStorm } from 'react-icons/bs';
+import { CgUnavailable } from 'react-icons/cg';
+import { FaCloudShowersHeavy, FaCloudShowersWater, FaSmog, FaSnowflake, FaWind } from 'react-icons/fa6';
+import { IoMdRainy } from 'react-icons/io';
+import { MdFoggy, MdSnowing } from 'react-icons/md';
+import { PiSnowflake, PiThermometerCold } from 'react-icons/pi';
+import { RiHeavyShowersFill } from 'react-icons/ri';
+import {
+  WiCloud,
+  WiDayCloudy,
+  WiDaySunny,
+  WiDust,
+  WiHot,
+  WiHurricane,
+  WiNightClear,
+  WiNightCloudy,
+  WiRainMix,
+  WiSleet,
+  WiSnow,
+  WiSnowWind,
+  WiThunderstorm,
+  WiTornado,
+} from 'react-icons/wi';
+import { WEATHER_CODE } from '~/types/weatherCode';
+
+export const ICONS = {
+  [WEATHER_CODE.TORNADO]: WiTornado,
+  [WEATHER_CODE.TROPICAL_STORM]: BsTropicalStorm,
+  [WEATHER_CODE.HURRICANE]: WiHurricane,
+  [WEATHER_CODE.SEVERE_THUNDERSTORMS]: WiThunderstorm,
+  [WEATHER_CODE.THUNDERSTORMS]: WiThunderstorm,
+  [WEATHER_CODE.MIXED_RAIN_AND_SNOW]: WiRainMix,
+  [WEATHER_CODE.MIXED_RAIN_AND_SLEET]: WiSnow,
+  [WEATHER_CODE.FREEZING_DRIZZLE]: BsCloudDrizzle,
+  [WEATHER_CODE.DRIZZLE]: BsCloudDrizzle,
+  [WEATHER_CODE.FREEZING_RAIN]: IoMdRainy,
+  [WEATHER_CODE.SHOWERS]: FaCloudShowersWater,
+  [WEATHER_CODE.HEAVY_SHOWERS]: FaCloudShowersHeavy,
+  [WEATHER_CODE.SNOW_FLURRIES]: MdSnowing,
+  [WEATHER_CODE.LIGHT_SNOW_SHOWERS]: PiSnowflake,
+  [WEATHER_CODE.BLOWING_SNOW]: WiSnowWind,
+  [WEATHER_CODE.SNOW]: MdSnowing,
+  [WEATHER_CODE.HAIL]: BsCloudHailFill,
+  [WEATHER_CODE.SLEET]: BsCloudSleet,
+  [WEATHER_CODE.DUST]: WiDust,
+  [WEATHER_CODE.FOGGY]: MdFoggy,
+  [WEATHER_CODE.HAZE]: BsCloudHaze2Fill,
+  [WEATHER_CODE.SMOKY]: FaSmog,
+  [WEATHER_CODE.BLUSTERY]: FaWind,
+  [WEATHER_CODE.WINDY]: FaWind,
+  [WEATHER_CODE.COLD]: PiThermometerCold,
+  [WEATHER_CODE.CLOUDY]: WiDayCloudy,
+  [WEATHER_CODE.MOSTLY_CLOUDY_NIGHT]: WiNightCloudy,
+  [WEATHER_CODE.MOSTLY_CLOUDY_DAY]: WiDayCloudy,
+  [WEATHER_CODE.PARTLY_CLOUDY_NIGHT]: WiNightCloudy,
+  [WEATHER_CODE.PARTLY_CLOUDY_DAY]: WiDayCloudy,
+  [WEATHER_CODE.CLEAR_NIGHT]: WiNightClear,
+  [WEATHER_CODE.SUNNY]: WiDaySunny,
+  [WEATHER_CODE.FAIR_NIGHT]: WiNightClear,
+  [WEATHER_CODE.FAIR_DAY]: WiDaySunny,
+  [WEATHER_CODE.MIXED_RAIN_AND_HAIL]: WiRainMix,
+  [WEATHER_CODE.HOT]: WiHot,
+  [WEATHER_CODE.ISOLATED_THUNDERSTORMS]: WiThunderstorm,
+  [WEATHER_CODE.SCATTERED_THUNDERSTORMS_38]: WiThunderstorm,
+  [WEATHER_CODE.SCATTERED_THUNDERSTORMS_39]: WiThunderstorm,
+  [WEATHER_CODE.SCATTERED_SHOWERS]: RiHeavyShowersFill,
+  [WEATHER_CODE.HEAVY_SNOW_41]: FaSnowflake,
+  [WEATHER_CODE.HEAVY_SNOW_43]: FaSnowflake,
+  [WEATHER_CODE.SCATTERED_SNOW_SHOWERS]: WiSnow,
+  [WEATHER_CODE.SCATTERED_SNOW_SHOWERS]: FaSnowflake,
+  [WEATHER_CODE.PARTLY_CLOUDY]: WiCloud,
+  [WEATHER_CODE.THUNDERSHOWERS]: WiThunderstorm,
+  [WEATHER_CODE.SNOW_SHOWERS]: WiSnowWind,
+  [WEATHER_CODE.ISOLATED_THUNDERSHOWERS]: WiThunderstorm,
+  [WEATHER_CODE.NOT_AVAILABLE]: CgUnavailable,
+  [WEATHER_CODE.MIXED_SNOW_AND_SLEET]: WiSleet,
+} as const satisfies { [key: number]: IconType };

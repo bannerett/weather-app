@@ -31,7 +31,12 @@ const windDirection = {
   W: WiDirectionLeft,
 } as { [key: string]: IconType };
 
-const GridItem = styled(Grid.Item)({ display: 'flex', alignItems: 'center', justifyContent: 'center' });
+const GridItem = styled(Grid.Item)({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  lineHeight: '36px',
+});
 
 function WindCard({ chill, direction, speed }: Wind) {
   const [measure, setMeasure] = useState<'m/s' | 'km/h'>('m/s');
@@ -44,12 +49,11 @@ function WindCard({ chill, direction, speed }: Wind) {
   }, []);
 
   return (
-    <Card.Container>
-      <Grid.Container sx={{ lineHeight: '34px', pt: 0.75 }}>
-        <Grid.Item xs={6}>
-          <Card.Header sx={{ height: 30, lineHeight: '30px' }}>wind</Card.Header>
-        </Grid.Item>
-        <GridItem xs={6} sx={{ justifyContent: 'end' }}>
+    <Card.Container sx={{ aspectRatio: '1/1', overflow: 'hidden' }}>
+      <Grid.Container>
+        <GridItem xs={12} sx={{ justifyContent: 'space-between' }}>
+          <Card.Header>wind</Card.Header>
+          {/*todo: move button to general component*/}
           <Button
             disableElevation
             onClick={toggleMeasure}
@@ -59,26 +63,33 @@ function WindCard({ chill, direction, speed }: Wind) {
             {windSpeed} {measure}
           </Button>
         </GridItem>
-      </Grid.Container>
+        {/*<GridItem xs={6} sx={{ justifyContent: 'end' }}>*/}
 
-      {/* compass */}
-      <Grid.Container sx={{ aspectRatio: '1/1' }}>
-        <GridItem xs={12}>
-          <CardinalTag>N</CardinalTag>
-        </GridItem>
-        <GridItem xs={4}>
-          <CardinalTag>W</CardinalTag>
-        </GridItem>
-        <GridItem xs={4} sx={{ position: 'relative' }}>
-          <DirectionIcon size={42} />
-          <Box sx={{ position: 'absolute', left: '56%', bottom: -12, transform: 'translate(-50%, 0)' }}>{chill}˚</Box>
-        </GridItem>
-        <GridItem xs={4}>
-          <CardinalTag>E</CardinalTag>
-        </GridItem>
-        <GridItem xs={12}>
-          <CardinalTag>S</CardinalTag>
-        </GridItem>
+        {/*</GridItem>*/}
+
+        {/* compass */}
+        <Grid.Item xs={12}>
+          <Grid.Container rowSpacing={1}>
+            <GridItem xs={12}>
+              <CardinalTag>N</CardinalTag>
+            </GridItem>
+            <GridItem xs={4}>
+              <CardinalTag>W</CardinalTag>
+            </GridItem>
+            <GridItem xs={4} sx={{ position: 'relative' }}>
+              <DirectionIcon size={42} />
+              <Box sx={{ position: 'absolute', left: '56%', bottom: -12, transform: 'translate(-50%, 0)' }}>
+                {chill}˚
+              </Box>
+            </GridItem>
+            <GridItem xs={4}>
+              <CardinalTag>E</CardinalTag>
+            </GridItem>
+            <GridItem xs={12}>
+              <CardinalTag>S</CardinalTag>
+            </GridItem>
+          </Grid.Container>
+        </Grid.Item>
       </Grid.Container>
     </Card.Container>
   );

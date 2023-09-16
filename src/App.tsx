@@ -9,6 +9,7 @@ import Grid from '@mui/material/Grid';
 import clouds from '~/assets/img/clouds-384672_1920.jpg';
 import rainDrops from '~/assets/img/rain-drops.jpeg';
 import CurrentWeatherCard from '~/components/CurrentWeatherCard';
+import FeelsLikeCard from '~/components/FeelsLikeCard';
 import ForecastsCard from '~/components/ForecastsCard';
 import HumidityCard from '~/components/HumidityCard';
 import PressureCard from '~/components/PressureCard';
@@ -124,7 +125,7 @@ function App() {
               <ForecastsCard forecasts={weather.forecasts} />
             </Grid>
             <Grid item xs={12} sm={6} md={8}>
-              <Grid container columnSpacing={1}>
+              <Grid container spacing={1}>
                 <Grid item xs={3}>
                   <WindCard {...weather.current_observation.wind} />
                 </Grid>
@@ -136,6 +137,9 @@ function App() {
                 </Grid>
                 <Grid item xs={3}>
                   <HumidityCard humidity={weather.current_observation.atmosphere.humidity} />
+                </Grid>
+                <Grid item xs={3}>
+                  <FeelsLikeCard {...weather.current_observation.wind} />
                 </Grid>
                 <Grid item xs={3}>
                   <PressureCard pressure={weather.current_observation.atmosphere.pressure} />

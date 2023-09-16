@@ -10,6 +10,7 @@ import clouds from '~/assets/img/clouds-384672_1920.jpg';
 import rainDrops from '~/assets/img/rain-drops.jpeg';
 import CurrentWeatherCard from '~/components/CurrentWeatherCard';
 import ForecastsCard from '~/components/ForecastsCard';
+import SunriseCard from '~/components/SunriseCard';
 import TopBar from '~/components/TopBar';
 import VisibilityCard from '~/components/VisibilityCard';
 import WindCard from '~/components/WindCard';
@@ -128,7 +129,9 @@ function App() {
                 <Grid item xs={3}>
                   <VisibilityCard visibility={weather.current_observation.atmosphere.visibility} />
                 </Grid>
-                <Grid item xs={6}></Grid>
+                <Grid item xs={3}>
+                  <SunriseCard {...weather.current_observation.astronomy} />
+                </Grid>
               </Grid>
             </Grid>
           </Grid>

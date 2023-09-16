@@ -7,4 +7,7 @@ GridContainer.defaultProps = { container: true };
 const GridItem = styled(MuiGrid)({});
 GridItem.defaultProps = { item: true };
 
-export default { Container: GridContainer, Item: GridItem };
+const FlexGridItem = styled(MuiGrid)({ display: 'flex', alignItems: 'center' });
+GridItem.defaultProps = { item: true };
+
+export default { Container: GridContainer, Item: GridItem, FlexGridItem };

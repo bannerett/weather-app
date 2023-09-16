@@ -14,6 +14,8 @@ const Card = styled(Box)(({ theme: { shape } }) => ({
   lineHeight: '42px',
 }));
 
+const CardSquare = styled(Card)({ aspectRatio: '1/1' });
+
 function Header({ children, divider, sx, ...props }: BoxProps & { divider?: boolean }) {
   return (
     <Box>
@@ -25,4 +27,4 @@ function Header({ children, divider, sx, ...props }: BoxProps & { divider?: bool
   );
 }
 
-export default { Container: Card, Header };
+export default { Container: Card, Header, ContainerSquare: CardSquare };

@@ -10,6 +10,7 @@ import clouds from '~/assets/img/clouds-384672_1920.jpg';
 import rainDrops from '~/assets/img/rain-drops.jpeg';
 import CurrentWeatherCard from '~/components/CurrentWeatherCard';
 import ForecastsCard from '~/components/ForecastsCard';
+import HumidityCard from '~/components/HumidityCard';
 import SunriseCard from '~/components/SunriseCard';
 import TopBar from '~/components/TopBar';
 import VisibilityCard from '~/components/VisibilityCard';
@@ -131,6 +132,9 @@ function App() {
                 </Grid>
                 <Grid item xs={3}>
                   <SunriseCard {...weather.current_observation.astronomy} />
+                </Grid>
+                <Grid item xs={3}>
+                  <HumidityCard humidity={weather.current_observation.atmosphere.humidity} />
                 </Grid>
               </Grid>
             </Grid>

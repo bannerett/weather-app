@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
 import Card from '~/components/ui/Card';
@@ -26,7 +27,7 @@ function SunriseCard(phases: Astronomy) {
   }, []);
 
   return (
-    <Card.Container sx={{ aspectRatio: '1/1', overflow: 'hidden' }}>
+    <Card.ContainerSquare sx={{ position: 'relative', pb: 4 }}>
       <Grid.Container>
         <Grid.FlexGridItem xs={12} sx={{ justifyContent: 'space-between' }}>
           <Card.Header>sunrise</Card.Header>
@@ -37,11 +38,9 @@ function SunriseCard(phases: Astronomy) {
         <Grid.Item xs={12}>
           <Strong.Shadow sx={{ fontSize: 42 }}>{sunrise}</Strong.Shadow>
         </Grid.Item>
-        <Grid.FlexGridItem xs={12} sx={{ height: 80, alignItems: 'flex-end', lineHeight: '12px' }}>
-          Sunset: {sunset}
-        </Grid.FlexGridItem>
+        <Box sx={{ position: 'absolute', bottom: 12, lineHeight: '12px' }}>Sunset: {sunset}</Box>
       </Grid.Container>
-    </Card.Container>
+    </Card.ContainerSquare>
   );
 }
 

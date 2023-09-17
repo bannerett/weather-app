@@ -29,12 +29,12 @@ function SunriseCard(phases: Astronomy) {
   return (
     <Card.ContainerSquare sx={{ position: 'relative', pb: 4 }}>
       <Grid.Container>
-        <Grid.FlexGridItem xs={12} sx={{ justifyContent: 'space-between' }}>
+        <Grid.Item xs={12} sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Card.Header>sunrise</Card.Header>
           <Button disableElevation onClick={toggleAmPm} sx={{ p: 0, color: '#fff', minWidth: 'unset' }} variant="text">
             {amPm ? 'AM/PM' : '24H'}
           </Button>
-        </Grid.FlexGridItem>
+        </Grid.Item>
         <Grid.Item xs={12}>
           <Strong.Shadow sx={{ fontSize: 42 }}>{sunrise}</Strong.Shadow>
         </Grid.Item>

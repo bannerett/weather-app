@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite --host",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "docker:remove:image": "docker rmi weather-app"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",

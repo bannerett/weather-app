@@ -8,7 +8,7 @@ function VisibilityCard({ visibility }: { visibility: number }) {
   return (
     <Card.ContainerSquare overflow="hidden">
       <Grid.Container>
-        <Grid.Item>
+        <Grid.Item xs={12}>
           <Card.Header>visibility</Card.Header>
         </Grid.Item>
         <Grid.Item xs={12}>

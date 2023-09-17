@@ -12,6 +12,7 @@ import CurrentWeatherCard from '~/components/CurrentWeatherCard';
 import FeelsLikeCard from '~/components/FeelsLikeCard';
 import ForecastsCard from '~/components/ForecastsCard';
 import HumidityCard from '~/components/HumidityCard';
+import PressureCard from '~/components/PressureCard';
 import SunriseCard from '~/components/SunriseCard';
 import TopBar from '~/components/TopBar';
 import VisibilityCard from '~/components/VisibilityCard';
@@ -139,6 +140,9 @@ function App() {
                 </Grid>
                 <Grid item xs={3}>
                   <FeelsLikeCard {...weather.current_observation.wind} />
+                </Grid>
+                <Grid item xs={3}>
+                  <PressureCard pressure={weather.current_observation.atmosphere.pressure} />
                 </Grid>
               </Grid>
             </Grid>

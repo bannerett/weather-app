@@ -11,7 +11,6 @@ import {
   WiDirectionUpRight,
 } from 'react-icons/wi';
 
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 
@@ -35,7 +34,7 @@ const GridItem = styled(Grid.Item)({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  lineHeight: '36px',
+  lineHeight: '24px',
 });
 
 function WindCard({ chill, direction, speed }: Wind) {
@@ -53,7 +52,7 @@ function WindCard({ chill, direction, speed }: Wind) {
       <Grid.Container>
         <GridItem xs={12} sx={{ justifyContent: 'space-between' }}>
           <Card.Header>wind</Card.Header>
-          {/*todo: move button to general component*/}
+          {/* todo: move button to general component */}
           <Button
             disableElevation
             onClick={toggleMeasure}
@@ -63,9 +62,9 @@ function WindCard({ chill, direction, speed }: Wind) {
             {windSpeed} {measure}
           </Button>
         </GridItem>
-        {/*<GridItem xs={6} sx={{ justifyContent: 'end' }}>*/}
+        {/* <GridItem xs={6} sx={{ justifyContent: 'end' }}> */}
 
-        {/*</GridItem>*/}
+        {/* </GridItem> */}
 
         {/* compass */}
         <Grid.Item xs={12}>
@@ -78,9 +77,9 @@ function WindCard({ chill, direction, speed }: Wind) {
             </GridItem>
             <GridItem xs={4} sx={{ position: 'relative' }}>
               <DirectionIcon size={42} />
-              <Box sx={{ position: 'absolute', left: '56%', bottom: -12, transform: 'translate(-50%, 0)' }}>
-                {chill}˚
-              </Box>
+              {/* <Box sx={{ position: 'absolute', left: '56%', bottom: -12, transform: 'translate(-50%, 0)' }}> */}
+              {/*   {chill}˚ */}
+              {/* </Box> */}
             </GridItem>
             <GridItem xs={4}>
               <CardinalTag>E</CardinalTag>

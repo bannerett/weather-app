@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { IconContext } from 'react-icons';
 
 import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 
@@ -11,8 +10,7 @@ import rainDrops from '~/assets/img/rain-drops.jpeg';
 import CurrentWeatherCard from '~/components/CurrentWeatherCard';
 import FeelsLikeCard from '~/components/FeelsLikeCard';
 import ForecastsCard from '~/components/ForecastsCard';
-import HumidityCard from '~/components/HumidityCard';
-import PressureCard from '~/components/PressureCard';
+import HumidityPressureCard from '~/components/HumidityPressureCard';
 import SunriseCard from '~/components/SunriseCard';
 import TopBar from '~/components/TopBar';
 import VisibilityCard from '~/components/VisibilityCard';
@@ -101,7 +99,7 @@ function App() {
           // },
         }}
       >
-        {/*<ThemeProvider theme={theme}>*/}
+        {/* <ThemeProvider theme={theme}> */}
         <CssBaseline />
         <Box
           component="img"
@@ -110,44 +108,45 @@ function App() {
           sx={{ position: 'absolute', width: '100%', height: '100%', objectFit: 'cover' }}
         />
         <TopBar />
-        {/*</ThemeProvider>*/}
-        <Container
+        {/* </ThemeProvider> */}
+        <Box
           sx={{
+            // maxWidth: { xs: '100%', sm: 706, md: 706, lg: 706 },
+            maxWidth: 706,
+            mx: 'auto',
             py: 3,
+            px: 1,
             height: '100%',
             overflowY: 'scroll',
             '&::-webkit-scrollbar': { display: 'none !important' },
           }}
         >
           <CurrentWeatherCard condition={weather.current_observation.condition} location={weather.location} />
-          <Grid container columnSpacing={1}>
-            <Grid item xs={12} sm={6} md={4}>
+          <Grid container spacing={1}>
+            <Grid item xs={12} sm={6} md={6}>
               <ForecastsCard forecasts={weather.forecasts} />
             </Grid>
-            <Grid item xs={12} sm={6} md={8}>
+            <Grid item xs={12} sm={6} lg={6}>
               <Grid container spacing={1}>
-                <Grid item xs={3}>
+                <Grid item xs={6}>
                   <WindCard {...weather.current_observation.wind} />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={6}>
                   <VisibilityCard visibility={weather.current_observation.atmosphere.visibility} />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={6}>
                   <SunriseCard {...weather.current_observation.astronomy} />
                 </Grid>
-                <Grid item xs={3}>
-                  <HumidityCard humidity={weather.current_observation.atmosphere.humidity} />
+                <Grid item xs={6}>
+                  <HumidityPressureCard {...weather.current_observation.atmosphere} />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={6}>
                   <FeelsLikeCard {...weather.current_observation.wind} />
-                </Grid>
-                <Grid item xs={3}>
-                  <PressureCard pressure={weather.current_observation.atmosphere.pressure} />
                 </Grid>
               </Grid>
             </Grid>
           </Grid>
-        </Container>
+        </Box>
       </Box>
     </IconContext.Provider>
   );

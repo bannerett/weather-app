@@ -1,3 +1,5 @@
+import { HTMLAttributes, SyntheticEvent, useCallback, useEffect, useState } from 'react';
+
 import AppBar from '@mui/material/AppBar';
 import Autocomplete from '@mui/material/Autocomplete';
 import { AutocompleteRenderInputParams } from '@mui/material/Autocomplete/Autocomplete';
@@ -10,7 +12,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { List, MagnifyingGlass, MapPin } from '@phosphor-icons/react';
 import { delay } from 'lodash';
-import { HTMLAttributes, SyntheticEvent, useCallback, useEffect, useState } from 'react';
+
 import { citiesMock } from '~/mock/cities.mock';
 import { CityData } from '~/types/cities';
 
@@ -127,7 +129,7 @@ function TopBar() {
             <Box>
               {option.region}, {option.country}
             </Box>
-            {/*<Box component="pre">{JSON.stringify(option, null, 2)}</Box>*/}
+            {/* <Box component="pre">{JSON.stringify(option, null, 2)}</Box> */}
           </Stack>
         </Stack>
       </Box>
@@ -137,7 +139,7 @@ function TopBar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" elevation={0}>
+      <AppBar position="static" elevation={0} sx={{ bgcolor: 'transparent' }}>
         <Toolbar>
           <IconButton size="large" edge="start" color="inherit" aria-label="open drawer" sx={{ mr: 2 }}>
             <List />

@@ -1,14 +1,20 @@
+import { Skeleton } from '@mui/material';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { Condition, Location } from '~/types/weather';
+import { isNil } from 'lodash';
 
-interface OwnProps {
-  condition: Condition;
-  location: Location;
-}
+import { useGeoPositionContext } from '~/providers/useGeoPositionContext';
+import { useAppSelector } from '~/store/hooks';
+import { selectCurrentCondition, selectLocation } from '~/store/reducers/weatherSlice';
 
-function CurrentWeatherCard({ condition, location }: OwnProps) {
+function CurrentWeatherCard() {
+  const pos = useGeoPositionContext();
+  const condition = useAppSelector(selectCurrentCondition);
+  const location = useAppSelector(selectLocation);
+
+  console.log({ pos });
+
   return (
     <Stack
       direction="column"
@@ -28,11 +34,23 @@ function CurrentWeatherCard({ condition, location }: OwnProps) {
         filter: 'drop-shadow(0 0 3px rgba(0,0,0, .75))',
       }}
     >
-      <Typography variant="h4">{location.city}</Typography>
-      <Typography variant="h3" sx={{ position: 'relative', '&::after': { position: 'absolute', content: '"˚"' } }}>
-        {condition.temperature}
-      </Typography>
-      <Box>{condition.text}</Box>
+      {pos?.coords ? (
+        <>
+          <Typography variant="h4">{location?.city}</Typography>
+          <Typography
+            variant="h3"
+            sx={{
+              position: 'relative',
+              ...(!isNil(condition?.temperature) && { '&::after': { position: 'absolute', content: '"˚"' } }),
+            }}
+          >
+            {condition?.temperature || '--'}
+          </Typography>
+          <Box>{condition?.text}</Box>
+        </>
+      ) : (
+        <Skeleton height={130} width={130} variant="rounded" sx={{ borderRadius: ({ shape }) => shape.borderRadius }} />
+      )}
     </Stack>
   );
 }

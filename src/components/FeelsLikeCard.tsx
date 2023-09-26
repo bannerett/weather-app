@@ -5,13 +5,15 @@ import Button from '@mui/material/Button';
 import Card from '~/components/ui/Card';
 import Grid from '~/components/ui/Grid';
 import Strong from '~/components/ui/Strong';
-import { Wind } from '~/types/weather';
+import { useAppSelector } from '~/store/hooks';
+import { selectChill } from '~/store/reducers/weatherSlice';
 
-function FeelsLikeCard({ chill }: Wind) {
+function FeelsLikeCard() {
+  const chill = useAppSelector(selectChill);
   const [measure, setMeasure] = useState<'c' | 'f'>('c');
 
   const temperature = useMemo(() => {
-    return measure === 'c' ? chill : (chill * 9) / 5 + 32;
+    return chill ? (measure === 'c' ? chill : (chill * 9) / 5 + 32) : undefined;
   }, [chill, measure]);
 
   const toggleMeasure = useCallback(() => {
@@ -35,7 +37,7 @@ function FeelsLikeCard({ chill }: Wind) {
               </Button>
             </Grid.Item>
             <Grid.Item xs={12} onClick={toggleMeasure} sx={{ cursor: 'pointer' }}>
-              <Strong.Shadow sx={{ fontSize: 42 }}>{temperature}º</Strong.Shadow>
+              <Strong.Shadow sx={{ fontSize: 42 }}>{temperature || '--'}º</Strong.Shadow>
             </Grid.Item>
           </Grid.Container>
         </Grid.Item>

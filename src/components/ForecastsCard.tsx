@@ -2,32 +2,33 @@ import { useMemo } from 'react';
 
 import { Skeleton } from '@mui/material';
 import Stack from '@mui/material/Stack';
+import { nanoid } from '@reduxjs/toolkit';
 
 import Card from '~/components/ui/Card';
 import Divider from '~/components/ui/Divider';
 import WeatherCard from '~/components/WeatherCard';
 import { useAppSelector } from '~/store/hooks';
-import { selectCurrentCondition, selectForecasts, selectWeatherPending } from '~/store/reducers/weatherSlice';
+import { selectForecasts, selectWeatherPending } from '~/store/reducers/weatherSlice';
 
 function ForecastsCard() {
-  const current = useAppSelector(selectCurrentCondition);
-  console.log(current);
   const forecasts = useAppSelector(selectForecasts);
   const pending = useAppSelector(selectWeatherPending);
-  const { max, min } = useMemo(
-    () =>
-      (forecasts || []).reduce(
-        (prev, curr) => {
-          return {
-            ...prev,
-            ...(curr.high > prev.max && { max: curr.high }),
-            ...(curr.low < prev.min && { min: curr.low }),
-          };
-        },
-        { max: -Infinity, min: Infinity },
-      ),
-    [forecasts],
-  );
+
+  const { max, min } = useMemo(() => {
+    let min: number | undefined, max: number | undefined;
+
+    if (forecasts) {
+      min = Infinity;
+      max = -Infinity;
+
+      for (const forecast of forecasts) {
+        if (forecast.high > max) max = forecast.high;
+        if (forecast.low < min) min = forecast.low;
+      }
+    }
+
+    return { max, min };
+  }, [forecasts]);
 
   return (
     <Card.Container>
@@ -41,7 +42,7 @@ function ForecastsCard() {
         {!pending
           ? forecasts?.map((fc) => <WeatherCard key={fc.date} {...fc} max={max} min={min} />)
           : Array(11)
-              .fill(null)
+              .fill(nanoid(7))
               .map((_n, idx) => {
                 return <Skeleton key={idx} height={42} width="100%" />;
               })}

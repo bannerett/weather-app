@@ -12,7 +12,7 @@ import { ICONS } from '~/constants/icons';
 import { temperature } from '~/constants/temperature';
 import type { Forecast } from '~/types/weather';
 
-type WeatherCard = Forecast & { max: number; min: number };
+type WeatherCard = Forecast & { max?: number; min?: number };
 
 function WeatherCard({ code, day, text, low, high, max, min }: WeatherCard) {
   const gradient = useMemo(

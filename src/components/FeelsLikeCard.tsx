@@ -13,7 +13,7 @@ function FeelsLikeCard() {
   const [measure, setMeasure] = useState<'c' | 'f'>('c');
 
   const temperature = useMemo(() => {
-    return measure === 'c' ? chill : (chill * 9) / 5 + 32;
+    return chill ? (measure === 'c' ? chill : (chill * 9) / 5 + 32) : undefined;
   }, [chill, measure]);
 
   const toggleMeasure = useCallback(() => {
@@ -37,7 +37,7 @@ function FeelsLikeCard() {
               </Button>
             </Grid.Item>
             <Grid.Item xs={12} onClick={toggleMeasure} sx={{ cursor: 'pointer' }}>
-              <Strong.Shadow sx={{ fontSize: 42 }}>{temperature}º</Strong.Shadow>
+              <Strong.Shadow sx={{ fontSize: 42 }}>{temperature || '--'}º</Strong.Shadow>
             </Grid.Item>
           </Grid.Container>
         </Grid.Item>

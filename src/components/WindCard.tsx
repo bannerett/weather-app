@@ -17,18 +17,40 @@ import { styled } from '@mui/material/styles';
 import Card from '~/components/ui/Card';
 import CardinalTag from '~/components/ui/CardinalTag';
 import Grid from '~/components/ui/Grid';
-import { Wind } from '~/types/weather';
+import { useAppSelector } from '~/store/hooks';
+import { selectWind } from '~/store/reducers/weatherSlice';
 
-const windDirection = {
-  E: WiDirectionRight,
-  N: WiDirectionUp,
-  NE: WiDirectionDownRight,
-  NW: WiDirectionDownLeft,
-  S: WiDirectionDown,
-  SE: WiDirectionUpRight,
-  SW: WiDirectionUpLeft,
-  W: WiDirectionLeft,
+const windDirectionC = {
+  E: WiDirectionLeft,
+  East: WiDirectionLeft,
+  N: WiDirectionDown,
+  North: WiDirectionDown,
+  NE: WiDirectionDownLeft,
+  NW: WiDirectionDownRight,
+  S: WiDirectionUp,
+  South: WiDirectionUp,
+  SSE: WiDirectionUpRight,
+  SE: WiDirectionUpLeft,
+  ESE: WiDirectionUpLeft,
+  SW: WiDirectionUpRight,
+  W: WiDirectionRight,
+  West: WiDirectionRight,
 } as { [key: string]: IconType };
+
+const resolveIconRotation = (windDirection: string) => {
+  let deg = 0;
+
+  if (windDirection === 'E' || windDirection === 'East') deg = 90;
+  if (windDirection === 'NE') deg = 45;
+  if (windDirection === 'NNE') deg = -157.5;
+  if (windDirection === 'NW') deg = 315;
+  if (windDirection === 'SE') deg = 135;
+  if (windDirection === 'SSE') deg = 157.5;
+  if (windDirection === 'SW') deg = 225;
+  if (windDirection === 'W' || windDirection === 'West') deg = 270;
+
+  return deg;
+};
 
 const GridItem = styled(Grid.Item)({
   display: 'flex',
@@ -37,11 +59,15 @@ const GridItem = styled(Grid.Item)({
   lineHeight: '24px',
 });
 
-function WindCard({ chill, direction, speed }: Wind) {
+function WindCard() {
+  const wind = useAppSelector(selectWind);
   const [measure, setMeasure] = useState<'m/s' | 'km/h'>('m/s');
-  const windSpeed = useMemo(() => (measure === 'km/h' ? speed * 3.6 : speed), [measure, speed]);
+  const windSpeed = useMemo(
+    () => (wind ? (measure === 'km/h' ? wind?.speed * 3.6 : wind?.speed) : undefined),
+    [measure, wind],
+  );
 
-  const DirectionIcon = windDirection[direction];
+  const DirectionIcon = styled(WiDirectionUp)({});
 
   const toggleMeasure = useCallback(() => {
     setMeasure((m) => (m === 'm/s' ? 'km/h' : 'm/s'));
@@ -76,7 +102,21 @@ function WindCard({ chill, direction, speed }: Wind) {
               <CardinalTag>W</CardinalTag>
             </GridItem>
             <GridItem xs={4} sx={{ position: 'relative' }}>
-              <DirectionIcon size={42} />
+              <DirectionIcon
+                size={42}
+                sx={{
+                  ...(wind?.direction
+                    ? { rotate: `${resolveIconRotation(wind.direction)}deg` }
+                    : {
+                        animation: 'r 3000ms infinite',
+                        '@keyframes r': {
+                          '0%': { rotate: '0deg' },
+                          '50%': { rotate: '360deg' },
+                          '100%': { rotate: '0deg' },
+                        },
+                      }),
+                }}
+              />
               {/* <Box sx={{ position: 'absolute', left: '56%', bottom: -12, transform: 'translate(-50%, 0)' }}> */}
               {/*   {chill}˚ */}
               {/* </Box> */}

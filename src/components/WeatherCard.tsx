@@ -12,7 +12,9 @@ import { ICONS } from '~/constants/icons';
 import { temperature } from '~/constants/temperature';
 import type { Forecast } from '~/types/weather';
 
-function WeatherCard({ code, day, text, low, high }: Forecast) {
+type WeatherCard = Forecast & { max: number; min: number };
+
+function WeatherCard({ code, day, text, low, high, max, min }: WeatherCard) {
   const gradient = useMemo(
     () => `linear-gradient(to right, ${temperature[String(low)]}, ${temperature[String(high)]})`,
     [high, low],
@@ -39,8 +41,8 @@ function WeatherCard({ code, day, text, low, high }: Forecast) {
             </Box>
             <Slider
               value={[low, high]}
-              min={low - 2}
-              max={high + 2}
+              min={min}
+              max={max}
               // sx={{ background: gradient }}
               slotProps={{
                 track: { style: { background: gradient, border: 'none' } },

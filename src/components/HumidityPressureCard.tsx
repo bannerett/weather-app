@@ -5,9 +5,11 @@ import Box from '@mui/material/Box';
 import Card from '~/components/ui/Card';
 import Grid from '~/components/ui/Grid';
 import Strong from '~/components/ui/Strong';
-import { Atmosphere } from '~/types/weather';
+import { useAppSelector } from '~/store/hooks';
+import { selectAtmosphere } from '~/store/reducers/weatherSlice';
 
-function HumidityPressureCard({ humidity, pressure }: Atmosphere) {
+function HumidityPressureCard() {
+  const atmosphere = useAppSelector(selectAtmosphere);
   const [mainElement, setMainElement] = useState<'humidity' | 'pressure'>('humidity');
   const isHumidity = mainElement === 'humidity';
 
@@ -16,14 +18,16 @@ function HumidityPressureCard({ humidity, pressure }: Atmosphere) {
   }, []);
 
   return (
-    <Card.ContainerSquare>
+    <Card.ContainerSquare sx={{ position: 'relative' }}>
       <Grid.Container>
         <Grid.Item xs={12}>
           <Card.Header>{isHumidity ? 'humidity' : 'pressure'}</Card.Header>
         </Grid.Item>
         <Grid.Item xs={12} onClick={toggleOrder} sx={{ cursor: 'pointer' }}>
           <Strong.Shadow sx={{ fontSize: 42, whiteSpace: 'nowrap' }}>
-            {isHumidity ? humidity.toLocaleString() : Math.round(pressure).toLocaleString()}
+            {isHumidity
+              ? atmosphere?.humidity.toLocaleString()
+              : Math.round(atmosphere?.pressure || 0).toLocaleString()}
             <span style={{ ...(!isHumidity && { fontSize: 30 }) }}>{isHumidity ? ' %' : ' kPa'}</span>
           </Strong.Shadow>
         </Grid.Item>
@@ -41,7 +45,9 @@ function HumidityPressureCard({ humidity, pressure }: Atmosphere) {
         }}
       >
         {isHumidity ? 'pressure' : 'humidity'}:{' '}
-        {isHumidity ? `${Math.round(pressure).toLocaleString()} kPa` : `${humidity.toLocaleString()} %`}
+        {isHumidity
+          ? `${Math.round(atmosphere?.pressure || 0).toLocaleString()} kPa`
+          : `${atmosphere?.humidity.toLocaleString()} %`}
       </Box>
     </Card.ContainerSquare>
   );

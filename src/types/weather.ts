@@ -25,8 +25,8 @@ export interface CurrentObservation {
 
 export interface Condition {
   temperature: number;
-  text: string;
-  code: number;
+  text?: string;
+  code?: number;
 }
 
 export interface Astronomy {

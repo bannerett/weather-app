@@ -5,9 +5,11 @@ import Button from '@mui/material/Button';
 import Card from '~/components/ui/Card';
 import Grid from '~/components/ui/Grid';
 import Strong from '~/components/ui/Strong';
-import { Wind } from '~/types/weather';
+import { useAppSelector } from '~/store/hooks';
+import { selectChill } from '~/store/reducers/weatherSlice';
 
-function FeelsLikeCard({ chill }: Wind) {
+function FeelsLikeCard() {
+  const chill = useAppSelector(selectChill);
   const [measure, setMeasure] = useState<'c' | 'f'>('c');
 
   const temperature = useMemo(() => {

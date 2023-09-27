@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { IconContext } from 'react-icons';
 
 import Box from '@mui/material/Box';
@@ -69,6 +70,12 @@ function App() {
   // })();
   // }
   // }, [position]);
+
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'production' && position.coords?.latitude && position.coords?.longitude) {
+      dispatch(weatherThunk({ latitude: position.coords.latitude, longitude: position.coords.longitude }));
+    }
+  }, [dispatch, position.coords?.latitude, position.coords?.longitude]);
 
   return (
     <IconContext.Provider

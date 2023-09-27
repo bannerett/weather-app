@@ -5,13 +5,14 @@ import Typography from '@mui/material/Typography';
 import { isNil } from 'lodash';
 
 import { useGeoPositionContext } from '~/providers/useGeoPositionContext';
+import { selectApiCurrentWeatherCardParams } from '~/store/api/weatherApi';
 import { useAppSelector } from '~/store/hooks';
-import { selectCurrentCondition, selectLocation } from '~/store/reducers/weatherSlice';
 
 function CurrentWeatherCard() {
   const pos = useGeoPositionContext();
-  const condition = useAppSelector(selectCurrentCondition);
-  const location = useAppSelector(selectLocation);
+  const { condition, location } = useAppSelector(
+    selectApiCurrentWeatherCardParams({ lat: pos.coords?.latitude, lon: pos.coords?.longitude }),
+  );
 
   console.log({ pos });
 

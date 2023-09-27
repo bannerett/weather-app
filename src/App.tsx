@@ -21,8 +21,8 @@ import TopBar from '~/components/TopBar';
 import VisibilityCard from '~/components/VisibilityCard';
 import WindCard from '~/components/WindCard';
 import { useGeoPositionContext } from '~/providers/useGeoPositionContext';
+import { selectWeatherByCoords, useLazyGetWeatherByCoordsQuery } from '~/store/api/weatherApi';
 import { useAppDispatch, useAppSelector } from '~/store/hooks';
-import { selectCurrentConditionCode } from '~/store/reducers/weatherSlice';
 import { weatherThunk } from '~/store/thunks/weatherThunk';
 import { WEATHER_CODE } from '~/types/weatherCode';
 
@@ -40,7 +40,9 @@ const images = {
 function App() {
   const dispatch = useAppDispatch();
   const position = useGeoPositionContext();
-  const conditionCode = useAppSelector(selectCurrentConditionCode);
+  const conditionCode = useAppSelector(
+    selectWeatherByCoords({ lat: position.coords?.latitude, lon: position.coords?.longitude }),
+  )?.current_observation.condition.code;
 
   console.log('RENDER APP', conditionCode);
 
@@ -70,6 +72,8 @@ function App() {
   // })();
   // }
   // }, [position]);
+
+  const [getApiWeather] = useLazyGetWeatherByCoordsQuery();
 
   useEffect(() => {
     if (process.env.NODE_ENV === 'production' && position.coords?.latitude && position.coords?.longitude) {
@@ -119,7 +123,7 @@ function App() {
         {/*   sx={{ position: 'absolute', width: '100svw', height: '100svh', objectFit: 'cover' }} */}
         {/* /> */}
         <Button
-          sx={{ position: 'absolute', top: 64, left: 0, opacity: 1 }}
+          sx={{ position: 'absolute', top: 64, left: 0, opacity: 1, filter: 'drop-shadow(0px 0px 3px #000)' }}
           onClick={() => {
             if (position.coords) {
               dispatch(weatherThunk({ latitude: position.coords.latitude, longitude: position.coords.longitude }));
@@ -127,6 +131,16 @@ function App() {
           }}
         >
           T
+        </Button>
+        <Button
+          sx={{ position: 'absolute', top: 64, left: 42, opacity: 1, filter: 'drop-shadow(0px 0px 3px #000)' }}
+          onClick={() => {
+            if (position.coords) {
+              getApiWeather({ lat: position.coords.latitude, lon: position.coords.longitude });
+            }
+          }}
+        >
+          A
         </Button>
 
         <TopBar />

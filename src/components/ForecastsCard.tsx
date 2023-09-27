@@ -3,28 +3,32 @@ import { useMemo } from 'react';
 import { Skeleton } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import { nanoid } from '@reduxjs/toolkit';
+import { QueryStatus } from '@reduxjs/toolkit/query';
 
 import Card from '~/components/ui/Card';
 import Divider from '~/components/ui/Divider';
 import WeatherCard from '~/components/WeatherCard';
+import { useGeoPositionContext } from '~/providers/useGeoPositionContext';
+import { selectApiForecastCardParams } from '~/store/api/weatherApi';
 import { useAppSelector } from '~/store/hooks';
-import { selectCurrentCondition, selectForecasts, selectWeatherPending } from '~/store/reducers/weatherSlice';
 import { Forecast } from '~/types/weather';
 
 function ForecastsCard() {
-  const forecasts = useAppSelector(selectForecasts);
-  const currentCondition = useAppSelector(selectCurrentCondition);
-  const pending = useAppSelector(selectWeatherPending);
+  const pos = useGeoPositionContext();
+  const { condition, forecasts, status } = useAppSelector(
+    selectApiForecastCardParams({ lat: pos.coords?.latitude, lon: pos.coords?.longitude }),
+  );
+  const pending = status === QueryStatus.pending;
 
   const currentForecasts = useMemo(() => {
-    if (forecasts && currentCondition) {
+    if (forecasts && condition) {
       return forecasts.map((fc, idx) =>
-        idx === 0 ? { ...fc, day: 'Today', currentTemp: currentCondition.temperature } : fc,
+        idx === 0 ? { ...fc, day: 'Today', currentTemp: condition.temperature } : fc,
       ) as (Forecast & { currentTemp?: number })[];
     }
 
     return undefined;
-  }, [currentCondition, forecasts]);
+  }, [condition, forecasts]);
   const { max, min } = useMemo(() => {
     let min: number | undefined, max: number | undefined;
 

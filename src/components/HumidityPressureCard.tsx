@@ -5,11 +5,15 @@ import Box from '@mui/material/Box';
 import Card from '~/components/ui/Card';
 import Grid from '~/components/ui/Grid';
 import Strong from '~/components/ui/Strong';
+import { useGeoPositionContext } from '~/providers/useGeoPositionContext';
+import { selectWeatherApiAtmosphere } from '~/store/api/weatherApi';
 import { useAppSelector } from '~/store/hooks';
-import { selectAtmosphere } from '~/store/reducers/weatherSlice';
 
 function HumidityPressureCard() {
-  const atmosphere = useAppSelector(selectAtmosphere);
+  const pos = useGeoPositionContext();
+  const atmosphere = useAppSelector(
+    selectWeatherApiAtmosphere({ lat: pos.coords?.latitude, lon: pos.coords?.longitude }),
+  );
   const [mainElement, setMainElement] = useState<'humidity' | 'pressure'>('humidity');
   const isHumidity = mainElement === 'humidity';
 

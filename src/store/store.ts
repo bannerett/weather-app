@@ -1,5 +1,6 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 
+import { weatherApi } from '~/store/api/weatherApi';
 import weatherSlice from '~/store/reducers/weatherSlice';
 import { WeatherResponse } from '~/types/weather';
 
@@ -8,10 +9,8 @@ export interface Store {
 }
 
 export const store = configureStore({
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  reducer: combineReducers<Store>({ weather: weatherSlice }),
-  // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(weatherApi.middleware),
+  reducer: { [weatherApi.reducerPath]: weatherApi.reducer, weather: weatherSlice },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(weatherApi.middleware),
 });
 
 // setupListeners(store.dispatch);

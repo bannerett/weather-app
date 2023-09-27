@@ -5,11 +5,13 @@ import Button from '@mui/material/Button';
 import Card from '~/components/ui/Card';
 import Grid from '~/components/ui/Grid';
 import Strong from '~/components/ui/Strong';
+import { useGeoPositionContext } from '~/providers/useGeoPositionContext';
+import { selectWeatherApiWindChill } from '~/store/api/weatherApi';
 import { useAppSelector } from '~/store/hooks';
-import { selectChill } from '~/store/reducers/weatherSlice';
 
 function FeelsLikeCard() {
-  const chill = useAppSelector(selectChill);
+  const pos = useGeoPositionContext();
+  const chill = useAppSelector(selectWeatherApiWindChill({ lat: pos.coords?.latitude, lon: pos.coords?.longitude }));
   const [measure, setMeasure] = useState<'c' | 'f'>('c');
 
   const temperature = useMemo(() => {

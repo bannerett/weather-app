@@ -8,12 +8,23 @@ import Card from '~/components/ui/Card';
 import Divider from '~/components/ui/Divider';
 import WeatherCard from '~/components/WeatherCard';
 import { useAppSelector } from '~/store/hooks';
-import { selectForecasts, selectWeatherPending } from '~/store/reducers/weatherSlice';
+import { selectCurrentCondition, selectForecasts, selectWeatherPending } from '~/store/reducers/weatherSlice';
+import { Forecast } from '~/types/weather';
 
 function ForecastsCard() {
   const forecasts = useAppSelector(selectForecasts);
+  const currentCondition = useAppSelector(selectCurrentCondition);
   const pending = useAppSelector(selectWeatherPending);
 
+  const currentForecasts = useMemo(() => {
+    if (forecasts && currentCondition) {
+      return forecasts.map((fc, idx) =>
+        idx === 0 ? { ...fc, day: 'Today', currentTemp: currentCondition.temperature } : fc,
+      ) as (Forecast & { currentTemp?: number })[];
+    }
+
+    return undefined;
+  }, [currentCondition, forecasts]);
   const { max, min } = useMemo(() => {
     let min: number | undefined, max: number | undefined;
 
@@ -40,7 +51,7 @@ function ForecastsCard() {
         divider={<Divider />}
       >
         {!pending
-          ? forecasts?.map((fc) => <WeatherCard key={fc.date} {...fc} max={max} min={min} />)
+          ? currentForecasts?.map((fc) => <WeatherCard key={fc.date} {...fc} max={max} min={min} />)
           : Array(11)
               .fill(nanoid(7))
               .map((_n, idx) => {

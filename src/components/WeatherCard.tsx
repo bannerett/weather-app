@@ -12,13 +12,15 @@ import { ICONS } from '~/constants/icons';
 import { temperature } from '~/constants/temperature';
 import type { Forecast } from '~/types/weather';
 
-type WeatherCard = Forecast & { max?: number; min?: number };
+type WeatherCard = Forecast & { currentTemp?: number; max?: number; min?: number };
 
-function WeatherCard({ code, day, text, low, high, max, min }: WeatherCard) {
+function WeatherCard({ code, currentTemp, day, text, low, high, max, min }: WeatherCard) {
   const gradient = useMemo(
     () => `linear-gradient(to right, ${temperature[String(low)]}, ${temperature[String(high)]})`,
     [high, low],
   );
+  const value = useMemo(() => (currentTemp ? [low, currentTemp, high] : [low, high]), [currentTemp, high, low]);
+
   const WeatherIcon = styled(ICONS[code])({});
 
   return (
@@ -34,21 +36,28 @@ function WeatherCard({ code, day, text, low, high, max, min }: WeatherCard) {
             </Box>
           </Tooltip>
         </Grid.Item>
-        <Grid.Item xs={8}>
+        <Grid.Item xs={8} sx={{ position: 'relative' }}>
           <Stack direction="row" alignItems="center">
             <Box sx={{ px: 1 }}>
               <Strong.Shadow>{low}</Strong.Shadow>&deg;
             </Box>
+
             <Slider
-              value={[low, high]}
+              value={value}
+              // value={currentTemp}
               min={min}
               max={max}
               // sx={{ background: gradient }}
               slotProps={{
                 track: { style: { background: gradient, border: 'none' } },
-                thumb: { style: { display: 'none' } },
+                thumb: { style: { display: 'none', height: 8, width: 8, color: '#fafafa', outline: '1px solid #333' } },
+              }}
+              sx={{
+                pointerEvents: 'none',
+                ...(currentTemp && { 'span[data-index="1"]': { display: 'block !important' } }),
               }}
             />
+
             <Box sx={{ px: 1 }}>
               <Strong.Shadow>{high}</Strong.Shadow>&deg;
             </Box>

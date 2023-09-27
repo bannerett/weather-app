@@ -138,7 +138,7 @@ function App() {
             mx: 'auto',
             pb: 3,
             pt: 8,
-            px: 1,
+            px: { xs: 2.25, sm: 1 },
             // height: '100%',
             // overflowY: 'scroll',
             // '&::-webkit-scrollbar': { display: 'none !important' },

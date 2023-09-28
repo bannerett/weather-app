@@ -1,3 +1,5 @@
 import { createContext } from 'react';
 
-export const GeoPositionContext = createContext<GeolocationPosition | null>(null);
+export type GeoPositionContextType = GeolocationPosition & { pos: { latitude: number; longitude: number } };
+
+export const GeoPositionContext = createContext<GeoPositionContextType | null>(null);

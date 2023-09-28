@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { IconContext } from 'react-icons';
 
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 
@@ -23,7 +22,7 @@ import WindCard from '~/components/WindCard';
 import { useGeoPositionContext } from '~/providers/useGeoPositionContext';
 import { useAppDispatch, useAppSelector } from '~/store/hooks';
 import { selectCurrentConditionCode } from '~/store/reducers/weatherSlice';
-import { weatherThunk } from '~/store/thunks/weatherThunk';
+import { fetchWeather } from '~/store/thunks/weatherThunk';
 import { WEATHER_CODE } from '~/types/weatherCode';
 
 const images = {
@@ -39,10 +38,10 @@ const images = {
 
 function App() {
   const dispatch = useAppDispatch();
-  const position = useGeoPositionContext();
+  const { pos } = useGeoPositionContext();
   const conditionCode = useAppSelector(selectCurrentConditionCode);
 
-  console.log('RENDER APP', conditionCode);
+  console.log('RENDER APP', { conditionCode });
 
   // useEffect(() => {
   //   if (position) {
@@ -72,10 +71,10 @@ function App() {
   // }, [position]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'production' && position.coords?.latitude && position.coords?.longitude) {
-      dispatch(weatherThunk({ latitude: position.coords.latitude, longitude: position.coords.longitude }));
+    if (process.env.NODE_ENV === 'production' && pos?.latitude && pos?.longitude) {
+      dispatch(fetchWeather({ latitude: pos.latitude, longitude: pos.longitude }));
     }
-  }, [dispatch, position.coords?.latitude, position.coords?.longitude]);
+  }, [dispatch, pos?.latitude, pos?.longitude]);
 
   return (
     <IconContext.Provider
@@ -111,24 +110,6 @@ function App() {
           // },
         }}
       >
-        {/* <ThemeProvider theme={theme}> */}
-        {/* <Box */}
-        {/*   component="img" */}
-        {/*   loading="lazy" */}
-        {/*   src={images[conditionCode || 34]} */}
-        {/*   sx={{ position: 'absolute', width: '100svw', height: '100svh', objectFit: 'cover' }} */}
-        {/* /> */}
-        <Button
-          sx={{ position: 'absolute', top: 64, left: 0, opacity: 1 }}
-          onClick={() => {
-            if (position.coords) {
-              dispatch(weatherThunk({ latitude: position.coords.latitude, longitude: position.coords.longitude }));
-            }
-          }}
-        >
-          T
-        </Button>
-
         <TopBar />
         {/* </ThemeProvider> */}
         <Box

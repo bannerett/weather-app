@@ -1,19 +1,14 @@
-import { Skeleton } from '@mui/material';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { isNil } from 'lodash';
 
-import { useGeoPositionContext } from '~/providers/useGeoPositionContext';
 import { useAppSelector } from '~/store/hooks';
 import { selectCurrentCondition, selectLocation } from '~/store/reducers/weatherSlice';
 
 function CurrentWeatherCard() {
-  const pos = useGeoPositionContext();
   const condition = useAppSelector(selectCurrentCondition);
   const location = useAppSelector(selectLocation);
-
-  console.log({ pos });
 
   return (
     <Stack
@@ -22,7 +17,6 @@ function CurrentWeatherCard() {
       justifyContent="center"
       sx={{
         p: 1.5,
-        // backgroundColor: 'rgba(0,0,0,.3)',
         maxWidth: 'fit-content',
         mx: 'auto',
         mb: 6,
@@ -34,23 +28,17 @@ function CurrentWeatherCard() {
         filter: 'drop-shadow(0 0 3px rgba(0,0,0, .75))',
       }}
     >
-      {pos?.coords ? (
-        <>
-          <Typography variant="h4">{location?.city}</Typography>
-          <Typography
-            variant="h3"
-            sx={{
-              position: 'relative',
-              ...(!isNil(condition?.temperature) && { '&::after': { position: 'absolute', content: '"˚"' } }),
-            }}
-          >
-            {condition?.temperature || '--'}
-          </Typography>
-          <Box>{condition?.text}</Box>
-        </>
-      ) : (
-        <Skeleton height={130} width={130} variant="rounded" sx={{ borderRadius: ({ shape }) => shape.borderRadius }} />
-      )}
+      <Typography variant="h4">{location?.city || '...'}</Typography>
+      <Typography
+        variant="h3"
+        sx={{
+          position: 'relative',
+          ...(!isNil(condition?.temperature) && { '&::after': { position: 'absolute', content: '"˚"' } }),
+        }}
+      >
+        {condition?.temperature || '--'}
+      </Typography>
+      <Box>{condition?.text || '...'}</Box>
     </Stack>
   );
 }

@@ -1,7 +1,7 @@
 import { createDraftSafeSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { RootState } from '~/store/store';
-import { weatherThunk } from '~/store/thunks/weatherThunk';
+import { fetchWeather } from '~/store/thunks/weatherThunk';
 import { Condition, WeatherResponse } from '~/types/weather';
 import { WEATHER_CODE } from '~/types/weatherCode';
 
@@ -20,14 +20,14 @@ export const weatherSlice = createSlice<WeatherState, WeatherReducers>({
   initialState: { data: {} as WeatherResponse, error: undefined, pending: false },
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(weatherThunk.fulfilled, (state, { payload }) => {
+    builder.addCase(fetchWeather.fulfilled, (state, { payload }) => {
       state.data = payload;
       state.pending = false;
     });
-    builder.addCase(weatherThunk.pending, (state) => {
+    builder.addCase(fetchWeather.pending, (state) => {
       state.pending = true;
     });
-    builder.addCase(weatherThunk.rejected, (state) => {
+    builder.addCase(fetchWeather.rejected, (state) => {
       state.error = 'Something went wrong';
       state.pending = false;
     });

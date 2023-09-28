@@ -24,19 +24,19 @@ function WeatherCard({ code, currentTemp, day, text, low, high, max, min }: Weat
   const WeatherIcon = styled(ICONS[code])({});
 
   return (
-    <Box sx={{ height: 42, lineHeight: '42px' }}>
+    <Box>
       <Grid.Container>
-        <Grid.Item xs={2}>
+        <Grid.Item xs={2.5}>
           <Strong.Shadow>{day}</Strong.Shadow>
         </Grid.Item>
-        <Grid.Item xs={2}>
+        <Grid.Item xs={2.5}>
           <Tooltip enterDelay={1000} enterNextDelay={500} placement="top" sx={{ fontSize: '14px' }} title={text}>
             <Box sx={{ display: 'flex', alignItems: 'center', height: '100%', width: '100%', pl: 1 }}>
               <WeatherIcon />
             </Box>
           </Tooltip>
         </Grid.Item>
-        <Grid.Item xs={8} sx={{ position: 'relative' }}>
+        <Grid.Item xs={7} sx={{ position: 'relative' }}>
           <Stack direction="row" alignItems="center">
             <Box sx={{ px: 1 }}>
               <Strong.Shadow>{low}</Strong.Shadow>&deg;
